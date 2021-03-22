@@ -62,6 +62,7 @@ require('product.php');
                     $_SESSION["amount_inserted"] += 0.05; 
                     
                 }
+                echo "<div class=container>";
                 echo "Product Price : ".$_SESSION["product_price"]."<br>";
                 echo "Amount you have inserted : ".$_SESSION["amount_inserted"]."<br>";
 
@@ -69,17 +70,16 @@ require('product.php');
                    
                     $remaining_price = $_SESSION["product_price"] - $_SESSION["amount_inserted"];
                     echo "Remaining Amount: ".$remaining_price."<br>";
-                   // echo $_SESSION["amount_inserted"];
                 }
                 elseif($_SESSION["product_price"] === $_SESSION["amount_inserted"]){
                     echo "Enjoy your meal !!!";
                 }
                 else{
-
-                   // echo "Please enter lesser amount! <br>";
                     $x = $_SESSION["product_price"] - $_SESSION["amount_inserted"];
-                    echo "You get back $x ";
+                    //var_dump(round($x,2));
+                    echo "You get back ".round($x,2);
                 }
+                echo "</div>";
 
 
             }
@@ -106,33 +106,33 @@ require('product.php');
  <body>
  <div id="display">
  </div>
+ <div class="container" >
  <?php
     
     if(isset($_SESSION["product_name"])){
-        echo "<p>Item is ".$_SESSION["product_name"]."</p>";
+        echo "<h3>Item is ".$_SESSION["product_name"]."</h3>";
     }
     else{
         echo"<p>Choose Product</p>";
     }
  ?>
+
  <form action="index.php" method="POST">
-    <button name="chocolate_bar">Chocolate_Bar $1.25</button>
-    <button name="pop">Pop $1.50</button>
-    <button name="chips">Chips $1.75</button>
-    <p>Payment</p>
+    <button name="chocolate_bar" class="btn btn-primary">Chocolate_Bar $1.25</button>
+    <button name="pop" class="btn btn-primary">Pop $1.50</button>
+    <button name="chips" class="btn btn-primary">Chips $1.75</button>
+    <h3>Payment</h3>
     <?php
         if(isset($_SESSION["product_name"])){
-            echo '
-            <div class="card" style="width: 12rem;">
-            <button name="1">$1</button>
-            <button name="25">$0.25</button>
-            <button name="10">$0.10</button>
-            <button name="05">$0.05</button>
-            </div>
-            ';
+            echo '<div>
+            <button name="1" class="btn btn-primary">$1</button>
+            <button name="25" class="btn btn-primary">$0.25</button>
+            <button name="10" class="btn btn-primary">$0.10</button>
+            <button name="05" class="btn btn-primary">$0.05</button>
+            </div>';
         }
     ?>
-    
+</div>
  </form>
  
  
