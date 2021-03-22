@@ -1,0 +1,43 @@
+<html>
+<head>
+</head>
+ <body>
+ <div id="display">
+ </div>
+ <p>Username:<input id="username" type="text" name="username"></p>
+ <p>Message:<input id="messages" type="text" name="messages"></p>
+
+ <p>
+ <button type="button" onclick="postdata()" name="submit">Submit Message</button>
+ </p>
+ </body>
+<script>  
+function getmessage() {
+    var input=new FormData();
+
+    fetch('message.php',{
+        method: 'POST',
+        body: input
+    })
+    .then(response=>response.text())
+    .then(response=>document.getElementById("display").innerHTML = response)
+    .catch(error=>console.error('Error:',error));
+}
+
+function postdata() {
+    
+    var input=new FormData();
+    input.append("username",document.getElementById("username").value);
+    input.append("messages",document.getElementById("messages").value);
+    console.log(FormData);
+    fetch('input.php',{
+        method: 'POST',
+        body: input
+    })
+    .then(response=>response.text())
+    .then(response=>document.getElementById("display").innerHTML = response)
+    .catch(error=>console.error('Error:',error));
+}
+setInterval(getmessage,2000);
+ </script>
+ </html>
