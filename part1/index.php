@@ -1,18 +1,35 @@
 <?php
-    session_start();
-    require('product.php');
+
+session_start();
+require('product.php');
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){      
             
-            if (isset($_POST['chocolate_bar'])){                
+            if (isset($_POST['chocolate_bar'])){  
+
+                //session_start();
+                $_SESSION["amount_inserted"] = 0;
+                
                 $selected_item  = "chocolate_bar";
                 $item_price = 1.25;
             }
             if (isset($_POST['pop'])){
+
+                session_destroy();
+
+                session_start();
+                $_SESSION["amount_inserted"] = 0;
+
                 $selected_item  = "pop";
                 $item_price = 1.50;
             }
             if (isset($_POST['chips'])){
+
+                session_destroy();
+
+                session_start();
+                $_SESSION["amount_inserted"] = 0;
+
                 $selected_item  = "chips";
                 $item_price = 1.75;
             } 
@@ -25,37 +42,49 @@
             }
 
             if(isset($_SESSION["product_name"])){
-            if($remaining_price == 0){
+                $amount=0;
+                $remaining_price=0;
+
                 if(isset($_POST['1'])){
                     $amount = 1;
+                    $_SESSION["amount_inserted"] += 1; 
                 }
                 if(isset($_POST['25'])){
                     $amount = 0.25;
+                    $_SESSION["amount_inserted"] += 0.25; 
                 }
                 if(isset($_POST['10'])){
                     $amount = 0.10;
-                    
+                    $_SESSION["amount_inserted"] += 0.10; 
                 }
                 if(isset($_POST['05'])){
                     $amount = 0.05;
+                    $_SESSION["amount_inserted"] += 0.05; 
                     
                 }
-            }else {
-                $remaining_price
+                echo "Product Price : ".$_SESSION["product_price"]."<br>";
+                echo "Amount you have inserted : ".$_SESSION["amount_inserted"]."<br>";
+
+                if($remaining_price < $_SESSION["product_price"] && $_SESSION["product_price"] - $remaining_price - $_SESSION["amount_inserted"] > 0 ){
+                   
+                    $remaining_price = $_SESSION["product_price"] - $_SESSION["amount_inserted"];
+                    echo "Remaining Amount: ".$remaining_price."<br>";
+                   // echo $_SESSION["amount_inserted"];
+                }
+                elseif($_SESSION["product_price"] === $_SESSION["amount_inserted"]){
+                    echo "Enjoy your meal !!!";
+                }
+                else{
+
+                   // echo "Please enter lesser amount! <br>";
+                    $x = $_SESSION["product_price"] - $_SESSION["amount_inserted"];
+                    echo "You get back $x ";
+                }
+
+
             }
+
             
-            if(isset($amount)){
-                echo $amount."<br>";
-                $amount=$_SESSION["product_price"]-$amount;
-                echo $amount."<br>";
-                // $remaining_price = $_SESSION["product_price"] - $amount;
-                // echo $remaining_price;
-                // if($remaining_price == 0){
-                //     echo "<br>Enjoy your Meal";
-                // }
-            }
-            
-        }
     }
     
     
