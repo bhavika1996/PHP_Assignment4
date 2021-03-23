@@ -59,25 +59,29 @@ require('product.php');
                 }
                 if(isset($_POST['05'])){
                     $amount = 0.05;
-                    $_SESSION["amount_inserted"] += 0.05; 
+                    $_SESSION["amount_inserted"] = round(($_SESSION["amount_inserted"] + 0.05), 2); 
                     
                 }
                 echo "<div class=container>";
                 echo "Product Price : ".$_SESSION["product_price"]."<br>";
-                echo "Amount you have inserted : ".$_SESSION["amount_inserted"]."<br>";
+                echo "Amount you have inserted : ".$_SESSION["amount_inserted"]. "<br/>";
+
+                // echo "product_price" . $_SESSION["product_price"];
+                // echo " amount_inserted" . $_SESSION["amount_inserted"] . "<br/>";
 
                 if($remaining_price < $_SESSION["product_price"] && $_SESSION["product_price"] - $remaining_price - $_SESSION["amount_inserted"] > 0 ){
                    
                     $remaining_price = $_SESSION["product_price"] - $_SESSION["amount_inserted"];
-                    echo "Remaining Amount: ".$remaining_price."<br>";
+                    echo "Remaining Amount: ". $remaining_price."<br>";
                 }
-                elseif($_SESSION["product_price"] === $_SESSION["amount_inserted"]){
+
+                elseif(abs($_SESSION["product_price"]) === abs($_SESSION["amount_inserted"])){
                     echo "Enjoy your meal !!!";
                 }
                 else{
+                    
                     $x = $_SESSION["product_price"] - $_SESSION["amount_inserted"];
-                    //var_dump(round($x,2));
-                    echo "You get back ".round($x,2);
+                    echo "You get back ". round($x, 2);
                 }
                 echo "</div>";
 
@@ -117,7 +121,7 @@ require('product.php');
     }
  ?>
 
- <form action="index.php" method="POST">
+ <form action="vending_machine.php" method="POST">
     <button name="chocolate_bar" class="btn btn-primary">Chocolate_Bar $1.25</button>
     <button name="pop" class="btn btn-primary">Pop $1.50</button>
     <button name="chips" class="btn btn-primary">Chips $1.75</button>
